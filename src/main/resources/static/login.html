@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 로그인</title>
+</head>
+<body>
+<h1>🔐 관리자 로그인</h1>
+<form id="loginForm">
+    <label>ID: <input type="text" id="username" value="admin"></label><br><br>
+    <label>PW: <input type="password" id="password" value="1234"></label><br><br>
+    <button type="submit">로그인</button>
+</form>
+
+<p id="message" style="color: red;"></p>
+
+<script>
+    const form = document.getElementById("loginForm");
+    const msg = document.getElementById("message");
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (response.ok) {
+            const token = await response.text();
+            localStorage.setItem("token", token);
+            msg.style.color = "green";
+            msg.textContent = "✅ 로그인 성공!";
+
+            // 👉 로그인 후 경고 목록 화면으로 이동
+            window.location.href = "/warning.html";
+        } else {
+            msg.textContent = "❌ 로그인 실패. 아이디 또는 비밀번호 확인";
+        }
+    };
+</script>
+</body>
+</html>

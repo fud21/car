@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>📢 실시간 경고 알림</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        ul {
+            padding-left: 1em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        #logout {
+            margin-top: 20px;
+            padding: 6px 12px;
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>📢 실시간 경고 알림</h1>
+
+<ul id="log"></ul>
+
+<button id="logout">로그아웃</button>
+
+<script>
+    // ✅ 로그인 토큰 확인
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("인증되지 않았습니다. 로그인 페이지로 이동합니다.");
+        location.href = "/login.html";
+    }
+
+    // ✅ 실시간 경고 알림 수신
+    const eventSource = new EventSource("/api/warning/stream");
+    const log = document.getElementById("log");
+
+    eventSource.addEventListener("warning", function(event) {
+        const li = document.createElement("li");
+        li.textContent = event.data;
+        li.style.color = "crimson";
+        li.style.fontWeight = "bold";
+        log.appendChild(li);
+    });
+
+    eventSource.onerror = function () {
+        const li = document.createElement("li");
+        li.textContent = "❌ 실시간 연결 종료됨";
+        li.style.color = "gray";
+        log.appendChild(li);
+    };
+
+    // ✅ 로그아웃 버튼
+    document.getElementById("logout").onclick = () => {
+        localStorage.removeItem("token");
+        alert("로그아웃 되었습니다.");
+        location.href = "/login.html";
+    };
+</script>
+</body>
+</html>
