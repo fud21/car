@@ -1,6 +1,6 @@
-package com.nagne.guardplatform.util;
+package com.nagne.carguardplatform.util;
 
-import com.nagne.guardplatform.config.JwtProperties;
+import com.nagne.carguardplatform.config.JwtProperties;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

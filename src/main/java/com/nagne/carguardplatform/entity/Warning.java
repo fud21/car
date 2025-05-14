@@ -1,4 +1,4 @@
-package com.nagne.guardplatform.entity;
+package com.nagne.carguardplatform.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

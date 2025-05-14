@@ -1,13 +1,13 @@
-package com.nagne.guardplatform;
+package com.nagne.carguardplatform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GuardplatformApplication {
+public class CarGuardPlatformApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GuardplatformApplication.class, args);
+		SpringApplication.run(CarGuardPlatformApplication.class, args);
 	}
 
 }

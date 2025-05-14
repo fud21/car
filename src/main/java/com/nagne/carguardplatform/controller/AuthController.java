@@ -1,7 +1,7 @@
-package com.nagne.guardplatform.controller;
+package com.nagne.carguardplatform.controller;
 
-import com.nagne.guardplatform.dto.LoginRequestDto;
-import com.nagne.guardplatform.util.JwtUtil;
+import com.nagne.carguardplatform.dto.LoginRequestDto;
+import com.nagne.carguardplatform.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;

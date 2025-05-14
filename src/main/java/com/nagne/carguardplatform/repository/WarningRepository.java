@@ -1,6 +1,6 @@
-package com.nagne.guardplatform.repository;
+package com.nagne.carguardplatform.repository;
 
-import com.nagne.guardplatform.entity.Warning;
+import com.nagne.carguardplatform.entity.Warning;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

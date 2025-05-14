@@ -1,4 +1,4 @@
-package com.nagne.guardplatform.util;
+package com.nagne.carguardplatform.util;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 

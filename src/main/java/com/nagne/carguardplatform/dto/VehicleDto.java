@@ -1,4 +1,4 @@
-package com.nagne.guardplatform.dto;
+package com.nagne.carguardplatform.dto;
 
 import lombok.Getter;
 import lombok.Setter;

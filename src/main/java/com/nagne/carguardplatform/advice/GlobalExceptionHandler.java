@@ -1,4 +1,4 @@
-package com.nagne.guardplatform.advice;
+package com.nagne.carguardplatform.advice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

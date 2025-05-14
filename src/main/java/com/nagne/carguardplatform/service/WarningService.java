@@ -1,13 +1,13 @@
-package com.nagne.guardplatform.service;
+package com.nagne.carguardplatform.service;
 
-import com.nagne.guardplatform.dto.WarningDto;
-import com.nagne.guardplatform.entity.Warning;
-import com.nagne.guardplatform.entity.Vehicle;
-import com.nagne.guardplatform.repository.VehicleRepository;
-import com.nagne.guardplatform.repository.WarningRepository;
+import com.nagne.carguardplatform.dto.WarningDto;
+import com.nagne.carguardplatform.entity.Warning;
+import com.nagne.carguardplatform.entity.Vehicle;
+import com.nagne.carguardplatform.repository.VehicleRepository;
+import com.nagne.carguardplatform.repository.WarningRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.nagne.guardplatform.util.WarningStreamManager;
+import com.nagne.carguardplatform.util.WarningStreamManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

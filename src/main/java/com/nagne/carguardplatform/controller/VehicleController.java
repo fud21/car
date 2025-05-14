@@ -1,7 +1,7 @@
-package com.nagne.guardplatform.controller;
+package com.nagne.carguardplatform.controller;
 
-import com.nagne.guardplatform.dto.VehicleDto;
-import com.nagne.guardplatform.service.VehicleService;
+import com.nagne.carguardplatform.dto.VehicleDto;
+import com.nagne.carguardplatform.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

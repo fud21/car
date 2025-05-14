@@ -1,4 +1,4 @@
-package com.nagne.guardplatform.config;
+package com.nagne.carguardplatform.config;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

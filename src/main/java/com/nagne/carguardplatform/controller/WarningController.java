@@ -1,8 +1,8 @@
-package com.nagne.guardplatform.controller;
+package com.nagne.carguardplatform.controller;
 
-import com.nagne.guardplatform.dto.WarningDto;
-import com.nagne.guardplatform.service.WarningService;
-import com.nagne.guardplatform.util.WarningStreamManager;
+import com.nagne.carguardplatform.dto.WarningDto;
+import com.nagne.carguardplatform.service.WarningService;
+import com.nagne.carguardplatform.util.WarningStreamManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

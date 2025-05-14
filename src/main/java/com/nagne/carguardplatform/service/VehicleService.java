@@ -1,8 +1,8 @@
-package com.nagne.guardplatform.service;
+package com.nagne.carguardplatform.service;
 
-import com.nagne.guardplatform.dto.VehicleDto;
-import com.nagne.guardplatform.entity.Vehicle;
-import com.nagne.guardplatform.repository.VehicleRepository;
+import com.nagne.carguardplatform.dto.VehicleDto;
+import com.nagne.carguardplatform.entity.Vehicle;
+import com.nagne.carguardplatform.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
