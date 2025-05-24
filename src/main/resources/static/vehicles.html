@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>📋 전체 등록 차량 목록</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2f80ed;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .logout-btn {
+            background-color: white;
+            color: #2f80ed;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 60px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 24px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #eef4ff;
+            border-left: 6px solid #2f80ed;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #d94444;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 30px auto 0;
+            background-color: #ccc;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background-color: #999;
+        }
+
+        #registerForm {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #registerForm input {
+            padding: 8px;
+            width: 60%;
+            max-width: 300px;
+            margin-right: 10px;
+        }
+
+        #registerForm button {
+            padding: 8px 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📋 등록 차량 목록</h1>
+    <button class="logout-btn" id="logoutBtn">로그아웃</button>
+</header>
+
+<main>
+    <h2>차량 등록</h2>
+    <form id="registerForm">
+        <input type="text" id="newPlate" placeholder="차량번호 예: 12가3456" required>
+        <button type="submit">+ 등록</button>
+    </form>
+
+    <h2>전체 등록 차량</h2>
+    <ul id="vehicleList"></ul>
+    <button class="back-btn" onclick="location.href='/dashboard.html'">← 대시보드로</button>
+</main>
+
+<script>
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("인증되지 않았습니다. 로그인 페이지로 이동합니다.");
+        location.href = "/login.html";
+    }
+
+    const list = document.getElementById("vehicleList");
+    const form = document.getElementById("registerForm");
+
+    async function loadVehicles() {
+        const response = await fetch("/api/vehicle/registered", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            alert("🚫 데이터를 불러올 수 없습니다.");
+            return;
+        }
+
+        const data = await response.json();
+        list.innerHTML = "";
+
+        data.forEach(vehicle => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+        🚗 ${vehicle.plateNumber}
+        <button class="delete-btn" onclick="deleteVehicle('${vehicle.plateNumber}')">삭제</button>
+      `;
+            list.appendChild(li);
+        });
+    }
+
+    async function deleteVehicle(plateNumber) {
+        if (!confirm(`🚨 ${plateNumber} 차량을 삭제할까요?`)) return;
+
+        const response = await fetch(`/api/vehicle/${plateNumber}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            alert("✅ 삭제 완료");
+            loadVehicles();
+        } else {
+            alert("❌ 삭제 실패");
+        }
+    }
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const plate = document.getElementById("newPlate").value.trim();
+
+        if (!plate) {
+            alert("차량번호를 입력해주세요.");
+            return;
+        }
+
+        const payload = {
+            plateNumber: plate,
+            registered: true
+        };
+
+        const response = await fetch("/api/vehicle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("✅ 차량 등록 완료");
+            form.reset();
+            loadVehicles();
+        } else {
+            alert("❌ 차량 등록 실패");
+        }
+    };
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn.onclick = () => {
+        localStorage.removeItem("token");
+        alert("로그아웃 되었습니다.");
+        location.href = "/login.html";
+    };
+
+    loadVehicles();
+</script>
+</body>
+</html>

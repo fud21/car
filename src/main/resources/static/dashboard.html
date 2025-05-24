@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>🚗 관리자 시스템</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f7;
+    }
+
+    /* 헤더 스타일 */
+    header {
+      background-color: #2f80ed;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .logout-btn {
+      background-color: white;
+      color: #2f80ed;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #e1eaff;
+    }
+
+    /* 메인 영역 */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 80px);
+    }
+
+    .menu-buttons {
+      display: flex;
+      gap: 40px;
+    }
+
+    .btn {
+      background-color: #2f80ed;
+      color: white;
+      border: none;
+      padding: 18px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      min-width: 220px;
+    }
+
+    .btn:hover {
+      background-color: #1d5ec9;
+    }
+
+    @media (max-width: 768px) {
+      .menu-buttons {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🚗 관리자 시스템</h1>
+  <button class="logout-btn" id="logoutBtn">로그아웃</button>
+</header>
+
+<main>
+  <div class="menu-buttons">
+    <button class="btn" onclick="location.href='/vehicles.html'">📋 전체 등록 차량 확인</button>
+    <button class="btn" onclick="location.href='/history.html'">🗂 전체 출입차량 확인</button>
+    <button class="btn" onclick="location.href='/warning.html'">🚨 미등록 차량 조회</button>
+  </div>
+</main>
+
+<script>
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.onclick = () => {
+      localStorage.removeItem("token");
+      alert("로그아웃 되었습니다.");
+      window.location.href = "/login.html";
+    };
+  }
+</script>
+</body>
+</html>

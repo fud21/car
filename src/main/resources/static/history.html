@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>📂 차량 출입 기록</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 640px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 24px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f0f4ff;
+            border-left: 6px solid #2f80ed;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #2d3e50;
+        }
+
+        .no-records {
+            text-align: center;
+            color: gray;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #ccc;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📂 전체 출입 차량 기록</h1>
+    <ul id="historyList"></ul>
+    <button class="back-btn" onclick="location.href='/dashboard.html'">← 대시보드</button>
+</div>
+
+<script>
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("인증되지 않았습니다. 로그인 페이지로 이동합니다.");
+        location.href = "/login.html";
+    }
+
+    const list = document.getElementById("historyList");
+
+    async function loadHistory() {
+        const response = await fetch("/api/vehicle/history", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            alert("❌ 인증 오류 또는 데이터 불러오기 실패");
+            return;
+        }
+
+        const data = await response.json();
+        list.innerHTML = "";
+
+        if (data.length === 0) {
+            list.innerHTML = "<li class='no-records'>출입 기록이 없습니다.</li>";
+            return;
+        }
+
+        data.forEach(v => {
+            const li = document.createElement("li");
+            const time = v.lastSeen ? v.lastSeen.replace("T", " ") : "(시간 정보 없음)";
+            li.textContent = `🚗 ${v.plateNumber} - ${v.location || "위치 없음"} (${time})`;
+            list.appendChild(li);
+        });
+    }
+
+    loadHistory();
+</script>
+</body>
+</html>

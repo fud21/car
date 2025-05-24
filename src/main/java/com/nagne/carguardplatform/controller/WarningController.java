@@ -55,4 +55,11 @@ public class WarningController {
         return ResponseEntity.ok(warningService.filterWarnings(plateNumber, location, date));
     }
 
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity<String> confirmWarning(@PathVariable Long id) {
+        warningService.confirmWarning(id);
+        return ResponseEntity.ok("확인 처리 완료");
+    }
+
+
 }

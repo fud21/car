@@ -15,41 +15,39 @@ public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
 
+    // 차량 저장
     public void save(VehicleDto dto) {
-        Vehicle vehicle = new Vehicle(dto.getPlateNumber(), dto.isRegistered());
+        Vehicle vehicle = new Vehicle(
+                dto.getPlateNumber(),
+                dto.isRegistered(),
+                dto.getLocation(),
+                dto.getLastSeen()
+        );
         vehicleRepository.save(vehicle);
     }
 
-    // 전체 조회
-    public List<VehicleDto> findAll() {
-        return vehicleRepository.findAll().stream()
-                .map(v -> {
-                    VehicleDto dto = new VehicleDto();
-                    dto.setPlateNumber(v.getPlateNumber());
-                    dto.setRegistered(v.isRegistered());
-                    return dto;
-                })
+    // 등록 차량만 조회
+    public List<VehicleDto> findRegisteredVehicles() {
+        return vehicleRepository.findByRegisteredTrue().stream()
+                .map(v -> new VehicleDto(
+                        v.getPlateNumber(),
+                        v.isRegistered(),
+                        v.getLocation(),
+                        v.getLastSeen()
+                ))
                 .collect(Collectors.toList());
     }
 
-    // 단일 차량 조회
-    public VehicleDto findByPlateNumber(String plateNumber) {
-        Vehicle vehicle = vehicleRepository.findById(plateNumber)
-                .orElseThrow(() -> new IllegalArgumentException("해당 차량이 존재하지 않습니다: " + plateNumber));
-
-        VehicleDto dto = new VehicleDto();
-        dto.setPlateNumber(vehicle.getPlateNumber());
-        dto.setRegistered(vehicle.isRegistered());
-        return dto;
-    }
-
-    // 차량 정보 수정
-    public void update(String plateNumber, VehicleDto dto) {
-        Vehicle vehicle = vehicleRepository.findById(plateNumber)
-                .orElseThrow(() -> new IllegalArgumentException("해당 차량이 존재하지 않습니다: " + plateNumber));
-
-        vehicle.setRegistered(dto.isRegistered());
-        vehicleRepository.save(vehicle);
+    // 전체 출입 차량 기록
+    public List<VehicleDto> findAllVehicleHistory() {
+        return vehicleRepository.findAll().stream()
+                .map(v -> new VehicleDto(
+                        v.getPlateNumber(),
+                        v.isRegistered(),
+                        v.getLocation(),
+                        v.getLastSeen()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 차량 삭제
@@ -59,5 +57,4 @@ public class VehicleService {
         }
         vehicleRepository.deleteById(plateNumber);
     }
-
 }

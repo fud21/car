@@ -2,17 +2,82 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>관리자 로그인</title>
+    <title>🔐 관리자 로그인</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f6fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 320px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2f80ed;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1c60c8;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<h1>🔐 관리자 로그인</h1>
-<form id="loginForm">
-    <label>ID: <input type="text" id="username" value="admin"></label><br><br>
-    <label>PW: <input type="password" id="password" value="1234"></label><br><br>
-    <button type="submit">로그인</button>
-</form>
 
-<p id="message" style="color: red;"></p>
+<div class="login-container">
+    <h1>🔐 관리자 로그인</h1>
+    <form id="loginForm">
+        <label>ID</label>
+        <input type="text" id="username" value="admin" placeholder="아이디를 입력하세요">
+        <label>PW</label>
+        <input type="password" id="password" value="1234" placeholder="비밀번호를 입력하세요">
+        <button type="submit">로그인</button>
+    </form>
+    <p id="message" style="color: red;"></p>
+</div>
 
 <script>
     const form = document.getElementById("loginForm");
@@ -21,9 +86,23 @@
     form.onsubmit = async (e) => {
         e.preventDefault();
 
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
 
+        // 클라이언트 단 유효성 검사
+        if (!username) {
+            msg.style.color = "red";
+            msg.textContent = "아이디를 입력해주세요.";
+            return;
+        }
+
+        if (!password) {
+            msg.style.color = "red";
+            msg.textContent = "비밀번호를 입력해주세요.";
+            return;
+        }
+
+        // 서버에 로그인 요청
         const response = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -34,14 +113,14 @@
             const token = await response.text();
             localStorage.setItem("token", token);
             msg.style.color = "green";
-            msg.textContent = "✅ 로그인 성공!";
-
-            // 👉 로그인 후 경고 목록 화면으로 이동
-            window.location.href = "/warning.html";
+            msg.textContent = "로그인 완료되었습니다.";
+            window.location.href = "/dashboard.html";
         } else {
-            msg.textContent = "❌ 로그인 실패. 아이디 또는 비밀번호 확인";
+            msg.style.color = "red";
+            msg.textContent = "아이디 또는 비밀번호가 잘못되었습니다.";
         }
     };
+
 </script>
 </body>
 </html>

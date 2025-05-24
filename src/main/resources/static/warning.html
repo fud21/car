@@ -2,19 +2,109 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>경고 목록</title>
+    <title>🚨 미등록 차량 조회</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 20px;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 15px;
+            background-color: #2f80ed;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1e5ec9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffeaea;
+            border-left: 6px solid crimson;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #c0392b;
+        }
+
+        .no-warning {
+            color: gray;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>📋 관리자 경고 조회</h1>
+<div class="container">
+    <h1>📋 관리자 경고 조회</h1>
 
-<form id="filterForm">
-    <label>차량번호: <input type="text" id="plateNumber"></label>
-    <label>위치: <input type="text" id="location"></label>
-    <label>날짜: <input type="date" id="date"></label>
-    <button type="submit">검색</button>
-</form>
+    <form id="filterForm">
+        <label>차량번호
+            <input type="text" id="plateNumber" placeholder="예: 137하7288">
+        </label>
+        <label>위치
+            <input type="text" id="location" placeholder="예: A동 정문">
+        </label>
+        <label>날짜
+            <input type="date" id="date">
+        </label>
+        <button type="submit">🔍 검색</button>
+    </form>
 
-<ul id="warningList"></ul>
+    <ul id="warningList"></ul>
+</div>
 
 <script>
     const token = localStorage.getItem("token");
@@ -51,7 +141,7 @@
         const data = await response.json();
         list.innerHTML = "";
         if (data.length === 0) {
-            list.innerHTML = "<li>⚠️ 경고 없음</li>";
+            list.innerHTML = "<li class='no-warning'>⚠️ 경고 없음</li>";
             return;
         }
 

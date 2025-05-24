@@ -63,6 +63,14 @@ public class WarningService {
                 .collect(Collectors.toList());
     }
 
+    public void confirmWarning(Long id) {
+        Warning warning = warningRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 경고가 존재하지 않습니다: " + id));
+
+        warning.setConfirmed(true);  // ✅ 확인 상태로 변경
+        warningRepository.save(warning);
+    }
+
 }
 
 
